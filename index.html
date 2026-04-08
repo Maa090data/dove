@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>馬士展 - 個人履歷</title>
+    <style>
+        /* 全域重置與基礎樣式（匹配參考圖極簡風格） */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Helvetica Neue", "Arial", "Microsoft JhengHei", sans-serif;
+        }
+
+        body {
+            background-color: #f0f0f0;
+            color: #333;
+            line-height: 1.7;
+            padding: 30px;
+        }
+
+        /* 履歷主容器（模擬瀏覽器視窗質感） */
+        .resume-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        /* 左側主內容區（參考圖白色主區域） */
+        .left-section {
+            width: 70%;
+            padding: 60px 70px;
+            background: #fff;
+        }
+
+        /* 右側側邊欄（參考圖深藍色側邊欄） */
+        .right-section {
+            width: 30%;
+            background-color: #284b63;
+            color: #fff;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        /* 通用標題樣式（匹配參考圖圖標+標題風格） */
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #284b63;
+            position: relative;
+            padding-left: 28px;
+        }
+
+        /* 標題前的小圖標（模擬參考圖的圓形圖標） */
+        .section-title::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #284b63;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #284b63;
+        }
+
+        /* 右側側邊欄標題樣式 */
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #d9d9d9;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #4a6fa5;
+        }
+
+        /* 內容區塊間距 */
+        .content-block {
+            margin-bottom: 45px;
+        }
+
+        /* 右側頭像+姓名區域（參考圖頂部風格） */
+        .profile-card {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            background-color: #d9d9d9;
+            overflow: hidden;
+            border: 3px solid #fff;
+        }
+
+        /* 個人頭像樣式優化 */
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            object-position: center; /* 確保頭像居中顯示 */
+        }
+
+        .name {
+            font-size: 26px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .identity {
+            font-size: 15px;
+            color: #c8d8e4;
+        }
+
+        /* 技能卡片（适配參考圖風格的方塊式） */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .skill-box {
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-align: left;
+            font-weight: 500;
+            font-size: 14px;
+            background-color: #3c6e71;
+            color: #fff;
+            transition: background-color 0.2s ease;
+        }
+
+        .skill-box:hover {
+            background-color: #4a8f94;
+        }
+
+        /* 聯絡資訊樣式（匹配參考圖圖標+文字風格） */
+        .contact-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .contact-list li {
+            margin-bottom: 12px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #c8d8e4;
+        }
+
+        /* 聯絡項前綴小圖標 */
+        .contact-list li::before {
+            content: "✉️";
+            width: 16px;
+            text-align: center;
+        }
+
+        /* 自定義聯絡項圖標 */
+        .contact-list li.phone::before { content: "📞"; }
+        .contact-list li.wechat::before { content: "💬"; }
+        .contact-list li.github::before { content: "💻"; }
+        .contact-list li.address::before { content: "📍"; }
+
+        /* 左側內容列表（參考圖日期右對齊風格） */
+        .info-item {
+            margin-bottom: 30px;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        /* 列表項前的豎線+圓點（參考圖時間軸風格） */
+        .info-item::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #284b63;
+        }
+
+        .info-item::after {
+            content: "";
+            position: absolute;
+            left: 2px;
+            top: 12px;
+            bottom: -15px;
+            width: 1px;
+            background-color: #e0e0e0;
+        }
+
+        /* 最後一項去掉豎線 */
+        .info-item:last-child::after {
+            display: none;
+        }
+
+        .info-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .info-title {
+            font-weight: 600;
+            color: #284b63;
+        }
+
+        .info-date {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .info-subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .info-desc {
+            padding-left: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .info-desc li {
+            margin-bottom: 5px;
+        }
+
+        /* 關於我段落樣式 */
+        .intro-text {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        /* 響應式适配（手機端） */
+        @media (max-width: 768px) {
+            .left-section, .right-section {
+                width: 100%;
+            }
+            .left-section { 
+                padding: 30px 25px; 
+                order: 2; /* 手機端先顯示主內容，再顯示側邊欄 */
+            }
+            .right-section { 
+                padding: 30px 25px; 
+                order: 1;
+            }
+            .info-header {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <!-- 左側：主內容區（匹配參考圖白色區域） -->
+        <div class="left-section">
+            <!-- 關於我（定制繁體內容+潤飾） -->
+            <div class="content-block">
+                <h2 class="section-title">關於我</h2>
+                <p class="intro-text">本人為勤益科技大學智慧自動化工程系在學大學生，深耕深度學習、數據分析與雲端運算領域的理論學習與實務應用，持續強化技術落地能力。</p>
+                <p class="intro-text"><strong>個人特質：</strong>邏輯思維清晰、自主學習能力優異，注重細節與實作成效；具備優秀的團隊協作與溝通能力，樂於探索新技術與解決方案，擁有扎實的問題分析與解決能力。</p>
+            </div>
+
+            <!-- 學歷與經歷（更新最新內容） -->
+            <div class="content-block">
+                <h2 class="section-title">學歷與經歷</h2>
+                <div class="info-list">
+                    <div class="info-item">
+                        <div class="info-header">
+                            <span class="info-title">勤益科技大學</span>
+                            <span class="info-date">2023.09 - 至今</span>
+                        </div>
+                        <div class="info-subtitle">智慧自動化工程系 | 學士在讀</div>
+                        <ul class="info-desc">
+                            <li>主修課程：深度學習、數據分析、機器視覺、雲端運算等核心課程</li>
+                            <li>建立扎實的理論基礎，著重技術與產業應用的結合</li>
+                        </ul>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-header">
+                            <span class="info-title">智慧製造研究室</span>
+                            <span class="info-date">2025.07 - 至今</span>
+                        </div>
+                        <div class="info-subtitle">研究助理 | 校內</div>
+                        <ul class="info-desc">
+                            <li>參與產學合作計畫，協助合作企業建構工業影像視覺分析體系，優化生產檢測流程</li>
+                            <li>參加CSME台灣機械工程學會研討會，發表「基於電腦視覺與深度學習在金屬平整度瑕疵之檢測」相關研究成果</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 專案經驗（刪除日期行） -->
+            <div class="content-block">
+                <h2 class="section-title">專案經驗</h2>
+                <div class="info-list">
+                    <div class="info-item">
+                        <div class="info-header">
+                            <span class="info-title">基於電腦視覺與深度學習的金屬平整度瑕疵檢測系統</span>
+                            <!-- 已刪除日期行 -->
+                        </div>
+                        <div class="info-subtitle">核心開發 | 研究室專案</div>
+                        <ul class="info-desc">
+                            <li>基於YOLO系列演算法優化金屬平整度瑕疵檢測模型，提升小瑕疵辨識準確率</li>
+                            <li>整合雲端運算資源，實現檢測數據的實時分析與存儲</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右側：深藍色側邊欄（匹配參考圖風格） -->
+        <div class="right-section">
+            <!-- 頭像+姓名（替換為本地頭像） -->
+            <div class="profile-card">
+                <div class="avatar">
+                    <!-- 替換為本地照片路徑，已改為 CV 資料夾下的 avatar.jpg -->
+                    <img src="avatar.jpg" alt="馬士展個人頭像">
+                </div>
+                <h1 class="name">馬士展</h1>
+                <p class="identity">智慧自動化工程系 | 在校大學生</p>
+            </div>
+
+            <!-- 技能卡片（刪除雲端運算項） -->
+            <div>
+                <h3 class="sidebar-title">專業技能</h3>
+                <div class="skills-grid">
+                    <div class="skill-box">Python 程式設計</div>
+                    <div class="skill-box">深度學習 (PyTorch/TensorFlow)</div>
+                    <div class="skill-box">機器視覺 (OpenCV)</div>
+                    <div class="skill-box">數據分析 (Pandas/NumPy)</div>
+                    <div class="skill-box">工業影像處理</div>
+                </div>
+            </div>
+
+            <!-- 聯絡資訊（替換為真實資訊） -->
+            <div>
+                <h3 class="sidebar-title">聯絡資訊</h3>
+                <ul class="contact-list">
+                    <li>s3b261101@student.ncut.tw</li>
+                    <li class="phone">0968-650-180</li>
+                    <li class="address">台中市 太平區 勤益科技大學</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
